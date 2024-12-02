@@ -1,34 +1,137 @@
-# dmedevchallenge
+```markdown
+# Pokémon Capture & Management App
 
-An Electron application with React and TypeScript
+## Description
+This is a Pokémon-themed application built with Electron, React, Redux, and SQLite, featuring a backend powered by Node.js and PostgreSQL. The app allows users to explore wild Pokémon, capture them, manage a party of up to 6 Pokémon, and store the extras in a PC Box. The PC Box Pokémon are stored and managed using a PostgreSQL backend, which runs automatically with the application.
 
-## Recommended IDE Setup
+---
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+## Features
+1. **Wild Pokémon Exploration:**
+   - Fetch Pokémon by type from the PokéAPI.
+   - Display detailed information (types, moves, description, etc.).
+   - Capture Pokémon directly.
 
-## Project Setup
+2. **Party Management:**
+   - Display a party of up to 6 Pokémon stored locally in SQLite.
+   - Automatically move Pokémon to the PC Box when the party is full.
 
-### Install
+3. **PC Box Management:**
+   - Display and manage Pokémon stored in a PostgreSQL database using an integrated backend.
+   - Scrollable display for viewing all PC Box Pokémon.
 
-```bash
-$ npm install
+4. **Real-time Updates:**
+   - Redux is used to manage the state of captured Pokémon and the PC Box Pokémon count.
+   - Synchronization between frontend and backend.
+
+5. **Toast Notifications:**
+   - Inform users of successful actions or errors using `react-toastify`.
+
+---
+
+## Tech Stack
+- **Frontend:**
+  - Electron
+  - React (Vite)
+  - Redux Toolkit
+  - Tailwind CSS
+
+- **Database:**
+  - SQLite (local Pokémon party)
+  - PostgreSQL (PC Box storage)
+
+- **Backend:**
+  - Node.js
+  - Express.js
+
+---
+
+## Directory Structure
+
+```plaintext
+src/
+├── backend/               # Backend code for PostgreSQL
+│   ├── index.ts           # Main backend logic (integrated with the app)
+│   ├── dbController.ts    # Logic for interacting with PostgreSQL
+│   └── models/
+│       └── postgres.sql   # SQL scripts for creating PostgreSQL tables
+├── components/            # Reusable React components (e.g., PokemonCard)
+├── database/              # SQLite logic and database setup
+│   └── db.ts              # SQLite queries and table creation
+├── pages/                 # React pages for routing
+│   ├── HomePage.tsx
+│   ├── PCBoxPage.tsx
+│   ├── PokemonPartyPage.tsx
+│   ├── WildPokemonPage.tsx
+├── redux/                 # Redux state management
+│   ├── slices/            # Redux slices for state
+│   │   ├── pokemonSlice.ts
+│   │   └── pcboxSlice.ts
+│   └── store.ts           # Redux store setup
+├── assets/                # Static assets (images, etc.)
+├── App.tsx                # Main app component
+└── main.tsx               # Electron entry point
 ```
 
-### Development
+---
 
-```bash
-$ npm run dev
-```
+## Getting Started
 
-### Build
+### Prerequisites
+- **Node.js** (v18+)
+- **PostgreSQL** (v14+)
+- **SQLite** (bundled with the app)
 
-```bash
-# For windows
-$ npm run build:win
+### Installation
 
-# For macOS
-$ npm run build:mac
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/your-username/pokemon-app.git
+   cd pokemon-app
+   ```
 
-# For Linux
-$ npm run build:linux
+2. **Install Dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Set Up PostgreSQL:**
+   - Run the SQL script located at `src/backend/models/postgres.sql` to set up the PostgreSQL database.
+
+4. **Run in Development:**
+   ```bash
+   npm run dev
+   ```
+
+5. **Build for Production:**
+   - For Windows:
+     ```bash
+     npm run build:win
+     ```
+   - For macOS:
+     ```bash
+     npm run build:mac
+     ```
+   - For Linux:
+     ```bash
+     npm run build:linux
+     ```
+
+---
+
+## Releases
+[Link to Releases](#)
+
+---
+
+## Notes
+- The backend starts automatically with the application, so no separate process is required.
+- In development, `npm run dev` runs both the Electron app and the backend together.
+- The PC Box is scrollable, while the rest of the app layout is fixed to prevent layout overflow.
+- Party management is local to the app (SQLite), while PC Box management is handled via PostgreSQL.
+
+---
+
+## License
+MIT License. Feel free to contribute!
 ```
