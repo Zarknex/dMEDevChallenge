@@ -1,13 +1,15 @@
-import { Link } from 'react-router';
-import pokemonLogo from '../assets/pokemon-logo.svg';
-import pcIcon from '../assets/pc-icon.svg';
-import grassIcon from '../assets/grass-icon.svg';
-import PokeballRow from './PartyPokeballs';
+import { Link } from 'react-router'
+import pokemonLogo from '../assets/pokemon-logo.svg'
+import pcIcon from '../assets/pc-icon.svg'
+import grassIcon from '../assets/grass-icon.svg'
+import PokeballRow from './PartyPokeballs'
 
 function NavBar(): JSX.Element {
   return (
-    <div className="bg-navbar-bg flex flex-col items-center h-48">
-      <img alt="logo" className="h-32 mb-4" src={pokemonLogo} />
+    <div className="bg-navbar-bg flex flex-col items-center">
+      <Link to="/" className="mb-2">
+        <img alt="logo" className="h-32" src={pokemonLogo} />
+      </Link>
 
       <div className="flex w-full shadow-lg">
         <Link
@@ -36,7 +38,7 @@ function NavBar(): JSX.Element {
         </Link>
       </div>
     </div>
-  );
+  )
 }
 
-export default NavBar;
+export default NavBar

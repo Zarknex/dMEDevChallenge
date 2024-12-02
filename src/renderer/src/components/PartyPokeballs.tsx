@@ -1,23 +1,24 @@
 import React from 'react'
-import pokeballBlack from '../assets/pokeball-black.svg'
-import pokeballColored from '../assets/pokeball-colored.svg'
+import { useSelector } from 'react-redux' // Hook para acceder al estado global
+import { RootState } from '../../../redux/store' // Importa el tipo RootState para el selector
+import pokeballBlack from '../assets/pokeball-black.svg' // Pokeball vacía
+import pokeballColored from '../assets/pokeball-colored.svg' // Pokeball capturada
 
-interface PokeballRowProps {
-  activeCount: number // Número de Pokeballs activas (rojas)
-}
+const PokeballRow: React.FC = () => {
+  // Acceder al estado global para obtener los Pokémon capturados
+  const capturedPokemons = useSelector((state: RootState) => state.pokemon.capturedPokemons)
 
-const PokeballRow: React.FC<PokeballRowProps> = ({ activeCount }) => {
-  // Validar que activeCount esté entre 0 y 6
-  const normalizedCount = Math.max(0, Math.min(6, activeCount))
+  // Calcula cuántos Pokémon están en el equipo (máximo 6)
+  const activeCount = Math.min(capturedPokemons.length, 6)
 
   return (
     <div className="flex space-x-2">
       {Array.from({ length: 6 }).map((_, index) => (
         <img
           key={index}
-          src={index < normalizedCount ? pokeballColored : pokeballBlack}
+          src={index < activeCount ? pokeballColored : pokeballBlack}
           alt="Pokeball"
-          className="h-6"
+          className="h-6 hover:scale-110 hover:brightness-110 transition-all"
         />
       ))}
     </div>

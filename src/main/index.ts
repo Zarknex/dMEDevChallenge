@@ -2,13 +2,15 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { startServer, stopServer } from '../backend/server'
+import { fork } from 'child_process';
+import { clearCapturedPokemon, getCapturedPokemon, saveCapturedPokemon } from '../database/db'
 
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: 1024,
+    height: 1024,
+    resizable: false, // Deshabilitar redimensionamiento
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
@@ -40,6 +42,12 @@ function createWindow(): void {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+
+  // Iniciar el servidor backend
+  const server = fork(join(__dirname, '../backend/server.js'));
+  server.on('error', (err) => {
+    console.error('Error en el servidor backend:', err);
+  });
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
@@ -50,10 +58,43 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC test
-  ipcMain.on('ping', () => console.log('pong'))
+  // IPC
 
-  startServer()
+  ipcMain.handle('pokemon:capture', (_, pokemon) => {
+    try {
+      saveCapturedPokemon(pokemon)
+      BrowserWindow.getAllWindows().forEach((win) => {
+        win.webContents.send('pokemon:capture:update', pokemon)
+      })
+      return { success: true, message: 'Pokemon captured successfully!' }
+    } catch (error) {
+      console.error('Error capturing Pokémon:', error)
+      return { success: false, message: 'Failed to capture Pokémon.' }
+    }
+  })
+
+  ipcMain.handle('pokemon:getCaptured', () => {
+    try {
+      return getCapturedPokemon()
+    } catch (error) {
+      console.error('Error fetching captured Pokémon:', error)
+      return []
+    }
+  })
+
+  ipcMain.handle('pokemon:clear', async () => {
+    try {
+      clearCapturedPokemon();
+      return { success: true, message: 'All captured Pokémon have been cleared successfully.' };
+    } catch (error) {
+      console.error('Error clearing captured Pokémon data:', error);
+      return { success: false, error: 'Failed to clear captured Pokémon. Please try again.' };
+    }
+  });
+
+  ipcMain.handle('app:exit', () => {
+    app.quit(); // Cierra la aplicación
+  });
 
   createWindow()
 
@@ -68,7 +109,6 @@ app.whenReady().then(() => {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
-  stopServer()
   if (process.platform !== 'darwin') {
     app.quit()
   }
