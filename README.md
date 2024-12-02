@@ -1,4 +1,3 @@
-```markdown
 # Pokémon Capture & Management App
 
 ## Description
@@ -94,9 +93,9 @@ src/
    ```bash
    npm install
    ```
-
+   
 3. **Set Up PostgreSQL:**
-   - Run the SQL script located at `src/backend/models/postgres.sql` to set up the PostgreSQL database.
+   - Run the SQL script located at `src/backend/models/postgres.sql` to set up the PostgreSQL database. The script includes the creation of the database, user, and their permissions.
 
 4. **Run in Development:**
    ```bash
@@ -129,9 +128,3 @@ src/
 - In development, `npm run dev` runs both the Electron app and the backend together.
 - The PC Box is scrollable, while the rest of the app layout is fixed to prevent layout overflow.
 - Party management is local to the app (SQLite), while PC Box management is handled via PostgreSQL.
-
----
-
-## License
-MIT License. Feel free to contribute!
-```
