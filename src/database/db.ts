@@ -57,7 +57,7 @@ export const saveCapturedPokemon = (pokemon: {
   image: string;
   types: { name: string; url: string }[];
   description: string;
-  attacks: string[];
+  moves: string[];
 }) => {
   const countPokemonStmt = db.prepare(`SELECT COUNT(*) as count FROM captured_pokemon`);
   const currentCount = countPokemonStmt.get().count;
@@ -117,7 +117,7 @@ export const saveCapturedPokemon = (pokemon: {
     });
 
     // Insertar los ataques y relaciones
-    pokemon.attacks.forEach((attack) => {
+    pokemon.moves.forEach((attack) => {
       insertMoveStmt.run({ name: attack }); // Inserta el ataque si no existe
       insertPokemonMoveStmt.run({ pokemon_id: pokemonId, move_name: attack }); // Relación
     });
@@ -155,7 +155,7 @@ export const getCapturedPokemon = () => {
     return {
       ...pokemon,
       types,
-      attacks: moves,
+      moves,
     };
   });
 };

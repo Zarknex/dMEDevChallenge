@@ -26,10 +26,12 @@
     "@reduxjs/toolkit": "^2.4.0",
     "axios": "^1.7.8",
     "better-sqlite3": "^11.6.0",
+    "cors": "^2.8.5",
     "express": "^4.21.1",
     "pg": "^8.13.1",
     "react-redux": "^9.1.2",
-    "react-router": "^7.0.1"
+    "react-router": "^7.0.1",
+    "react-toastify": "^10.0.6"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^2.0.0",

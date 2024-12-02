@@ -24,7 +24,7 @@ function PokemonPartyPage(): JSX.Element {
                   image={pokemon.image}
                   types={pokemon.types}
                   description={pokemon.description}
-                  attacks={pokemon.attacks}
+                  moves={pokemon.moves}
                   size='small'
                 />
               </div>

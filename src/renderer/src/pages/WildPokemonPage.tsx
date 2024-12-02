@@ -30,15 +30,16 @@ function WildPokemon(): JSX.Element {
   useEffect(() => {
     // Detectar si se ha capturado un nuevo Pokémon
     if (capturedPokemons.length > prevCapturedCount.current) {
-    setShowMessage(true)
-    dispatch(setSelectedPokemon(null))
+      setShowMessage(true)
+      dispatch(setSelectedPokemon(null))
 
-    // Ocultar el mensaje después de 3 segundos y cargar un nuevo Pokémon
-    const timer = setTimeout(() => {
-      setShowMessage(false)
-    }, 1000)
+      // Ocultar el mensaje después de 3 segundos y cargar un nuevo Pokémon
+      const timer = setTimeout(() => {
+        setShowMessage(false)
+      }, 1000)
 
-    return () => clearTimeout(timer)} 
+      return () => clearTimeout(timer)
+    }
   }, [capturedPokemons.length, dispatch])
 
   const handleTypeClick = async (type: string) => {
@@ -64,7 +65,7 @@ function WildPokemon(): JSX.Element {
       {showMessage && (
         <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-60 z-20 animate-fade-in">
           <div className="bg-yellow-500 text-white py-4 px-8 rounded-lg shadow-lg animate-pop-up">
-            <h2 className="text-3xl font-bold">¡Pokémon Atrapado!</h2>
+            <h2 className="text-3xl font-bold">Gotcha!</h2>
           </div>
         </div>
       )}
@@ -104,7 +105,7 @@ function WildPokemon(): JSX.Element {
               })
               .filter(Boolean)}
             description={selectedPokemon.description}
-            attacks={getRandomMoves(selectedPokemon.moves, 4)}
+            moves={getRandomMoves(selectedPokemon.moves, 4)}
             isWild
             size="large"
           />

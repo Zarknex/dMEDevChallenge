@@ -4,6 +4,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { fork } from 'child_process';
 import { clearCapturedPokemon, getCapturedPokemon, saveCapturedPokemon } from '../database/db'
+import { startServer, stopServer } from '../backend/server';
 
 function createWindow(): void {
   // Create the browser window.
@@ -44,10 +45,7 @@ function createWindow(): void {
 app.whenReady().then(() => {
 
   // Iniciar el servidor backend
-  const server = fork(join(__dirname, '../backend/server.js'));
-  server.on('error', (err) => {
-    console.error('Error en el servidor backend:', err);
-  });
+  startServer()
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
@@ -93,6 +91,7 @@ app.whenReady().then(() => {
   });
 
   ipcMain.handle('app:exit', () => {
+    stopServer()
     app.quit(); // Cierra la aplicación
   });
 

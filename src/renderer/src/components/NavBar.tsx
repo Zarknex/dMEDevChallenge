@@ -2,9 +2,12 @@ import { Link } from 'react-router'
 import pokemonLogo from '../assets/pokemon-logo.svg'
 import pcIcon from '../assets/pc-icon.svg'
 import grassIcon from '../assets/grass-icon.svg'
-import PokeballRow from './PartyPokeballs'
+import PartyPokeballs from './PartyPokeballs'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../redux/store'
 
-function NavBar(): JSX.Element {
+const NavBar: React.FC = () => {
+  const pcBoxCount = useSelector((state: RootState) => state.pcbox.pokemonCount);
   return (
     <div className="bg-navbar-bg flex flex-col items-center">
       <Link to="/" className="mb-2">
@@ -25,7 +28,7 @@ function NavBar(): JSX.Element {
           className="flex-1 bg-button-primary hover:bg-button-primary-hover border-button-border border-r-2 p-3 font-semibold text-button-text text-center flex flex-col items-center text-2xl"
         >
           Pokemon Party
-          <PokeballRow activeCount={2} />
+          <PartyPokeballs />
         </Link>
 
         <Link
@@ -34,7 +37,7 @@ function NavBar(): JSX.Element {
         >
           <span>PC Box</span>
           <img src={pcIcon} className="h-7" alt="PC Icon" />
-          <span>(5)</span>
+          <span>({pcBoxCount})</span>
         </Link>
       </div>
     </div>

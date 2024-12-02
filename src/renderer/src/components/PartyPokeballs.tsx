@@ -4,7 +4,7 @@ import { RootState } from '../../../redux/store' // Importa el tipo RootState pa
 import pokeballBlack from '../assets/pokeball-black.svg' // Pokeball vacía
 import pokeballColored from '../assets/pokeball-colored.svg' // Pokeball capturada
 
-const PokeballRow: React.FC = () => {
+const PartyPokeballs: React.FC = () => {
   // Acceder al estado global para obtener los Pokémon capturados
   const capturedPokemons = useSelector((state: RootState) => state.pokemon.capturedPokemons)
 
@@ -25,4 +25,4 @@ const PokeballRow: React.FC = () => {
   )
 }
 
-export default PokeballRow
+export default PartyPokeballs

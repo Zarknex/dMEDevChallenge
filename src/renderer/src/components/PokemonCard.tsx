@@ -1,21 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import pokeballColored from '../assets/pokeball-colored.svg';
-import { useDispatch } from 'react-redux';
-import { addCapturedPokemon } from '../../../redux/slices/pokemonSlice';
+import React, { useState, useEffect } from 'react'
+import pokeballColored from '../assets/pokeball-colored.svg'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../../redux/store'
+import { addCapturedPokemon } from '../../../redux/slices/pokemonSlice'
+import { toast } from 'react-toastify'
+import { incrementPokemonCount } from '../../../redux/slices/pcboxSlice'
 
 interface PokemonCardTypesProps {
-  name: string;
-  url: string;
+  name: string
+  url: string
 }
 
 interface PokemonCardProps {
-  name: string;
-  image: string;
-  types: PokemonCardTypesProps[];
-  description: string;
-  attacks: string[];
-  isWild?: boolean;
-  size?: 'small' | 'large'; // Nueva propiedad opcional
+  name: string
+  image: string
+  types: PokemonCardTypesProps[]
+  description: string
+  moves: string[]
+  isWild?: boolean
+  size?: 'small' | 'large' // Nueva propiedad opcional
 }
 
 const PokemonCard: React.FC<PokemonCardProps> = ({
@@ -23,17 +26,18 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
   image,
   types,
   description,
-  attacks,
+  moves,
   isWild = false,
-  size = 'large',
+  size = 'large'
 }) => {
-  const dispatch = useDispatch();
-  const [spriteKey, setSpriteKey] = useState(0); // Estado para forzar el cambio del sprite.
+  const dispatch = useDispatch()
+  const capturedPokemons = useSelector((state: RootState) => state.pokemon.capturedPokemons)
+  const [spriteKey, setSpriteKey] = useState(0) // Estado para forzar el cambio del sprite.
 
   const capitalizeFirstLetter = (str: string): string => {
-    if (!str) return '';
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  };
+    if (!str) return ''
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
+  }
 
   const handleCatchPokemon = async () => {
     const pokemon = {
@@ -41,22 +45,35 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
       image,
       types,
       description,
-      attacks
-    };
-
-    const response = await window.electron.ipcRenderer.invoke('pokemon:capture', pokemon);
-    if (response.success) {
-      console.log('Pokemon captured successfully!');
-      dispatch(addCapturedPokemon(pokemon));
-    } else {
-      console.error(response.message);
+      moves
     }
-  };
+
+    if (capturedPokemons.length >= 6) {
+      const response = await fetch('http://localhost:3000/api/pcbox', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(pokemon)
+      })
+      if (!response.ok) {
+        throw new Error('Error moviendo Pokémon a la PCBox')
+      }
+      toast.info(`${pokemon.name} se movió a la PCBox.`)
+      dispatch(incrementPokemonCount());
+    } else {
+      const response = await window.electron.ipcRenderer.invoke('pokemon:capture', pokemon)
+      if (response.success) {
+        // toast.success(`${pokemon.name} se capturó con éxito.`)
+        dispatch(addCapturedPokemon(pokemon))
+      } else {
+        console.error(response.message)
+      }
+    }
+  }
 
   useEffect(() => {
     // Cambiar la clave del sprite para forzar la animación cuando el sprite cambie.
-    setSpriteKey((prevKey) => prevKey + 1);
-  }, [image]);
+    setSpriteKey((prevKey) => prevKey + 1)
+  }, [image])
 
   return (
     <div className="max-w-sm mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
@@ -89,18 +106,20 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
       </div>
 
       <div className="px-4 pb-4">
-        <h3 className="text-lg font-semibold text-gray-800 mb-2">Attacks</h3>
+        <h3 className="text-lg font-semibold text-gray-800 mb-2">Moves</h3>
         <ul
           className={`${
-            size === 'small' ? 'flex flex-row flex-wrap gap-1 justify-center' : 'grid grid-cols-2 gap-2'
+            size === 'small'
+              ? 'flex flex-row flex-wrap gap-1 justify-center'
+              : 'grid grid-cols-2 gap-2'
           }`}
         >
-          {attacks.map((attack, index) => (
+          {moves.map((moves, index) => (
             <li
               key={index}
               className="text-sm bg-gray-100 p-2 rounded shadow text-center font-medium text-gray-700"
             >
-              {capitalizeFirstLetter(attack)}
+              {capitalizeFirstLetter(moves)}
             </li>
           ))}
         </ul>
@@ -116,7 +135,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default PokemonCard;
+export default PokemonCard
