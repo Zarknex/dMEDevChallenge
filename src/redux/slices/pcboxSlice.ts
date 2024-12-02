@@ -1,31 +1,38 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface PCBoxState {
+  pokemonList: any[]; 
   pokemonCount: number;
 }
 
 const initialState: PCBoxState = {
-  pokemonCount: 0, // Número inicial de Pokémon en la PCBox
+  pokemonList: [], 
+  pokemonCount: 0, 
 };
 
 const pcboxSlice = createSlice({
   name: 'pcbox',
   initialState,
   reducers: {
-    setPokemonCount(state, action: PayloadAction<number>) {
-      state.pokemonCount = action.payload; // Actualiza el número total de Pokémon
+    addPokemonToPCBox(state, action: PayloadAction<any>) {
+      state.pokemonList.push(action.payload);
+      state.pokemonCount += 1; 
     },
-    incrementPokemonCount(state) {
-      state.pokemonCount += 1; // Incrementa el contador en 1
+    setPokemonInPCBox(state, action: PayloadAction<any>) {
+      state.pokemonList = action.payload; 
+      state.pokemonCount = action.payload.length; 
     },
-    decrementPokemonCount(state) {
-      if (state.pokemonCount > 0) {
-        state.pokemonCount -= 1; // Decrementa el contador en 1
-      }
+    clearPCBox(state) {
+      state.pokemonList = []; 
+      state.pokemonCount = 0;
     },
   },
 });
 
-export const { setPokemonCount, incrementPokemonCount, decrementPokemonCount } = pcboxSlice.actions;
+export const {
+  addPokemonToPCBox,
+  clearPCBox,
+  setPokemonInPCBox
+} = pcboxSlice.actions;
 
 export default pcboxSlice.reducer;

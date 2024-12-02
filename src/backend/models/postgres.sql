@@ -1,6 +1,7 @@
 CREATE DATABASE pokemon_pcbox;
 CREATE USER pokemon_user WITH PASSWORD 'dmeDevChallenge';
 GRANT ALL PRIVILEGES ON DATABASE pokemon_pcbox TO pokemon_user;
+
 -- pcbox: Almacena Pokémon en la PCBox
 CREATE TABLE IF NOT EXISTS pcbox (
     id SERIAL PRIMARY KEY,
@@ -40,3 +41,13 @@ CREATE TABLE IF NOT EXISTS pokemon_moves_pcbox (
     FOREIGN KEY (pokemon_id) REFERENCES pcbox (id) ON DELETE CASCADE,
     FOREIGN KEY (move_id) REFERENCES moves (id) ON DELETE CASCADE
 );
+
+-- Otorgar permisos para todas las tablas al usuario
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO pokemon_user;
+
+-- Otorgar permisos para todas las secuencias (para claves primarias) al usuario
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO pokemon_user;
+
+-- Establecer permisos predeterminados para futuras tablas y secuencias
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO pokemon_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO pokemon_user;

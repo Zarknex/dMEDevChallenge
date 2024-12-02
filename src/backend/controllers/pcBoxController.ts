@@ -1,9 +1,13 @@
-import { saveToPCBox, fetchPCBoxPokemon } from '../models/pcBoxModel';
+import { saveToPCBox, fetchPCBoxPokemon, deleteAllData } from '../models/pcBoxModel'
 
 export const savePokemonToPCBox = async (pokemon: any) => {
-  return saveToPCBox(pokemon);
-};
+  return saveToPCBox(pokemon)
+}
 
 export const getPCBoxPokemon = async () => {
-  return fetchPCBoxPokemon();
-};
+  return fetchPCBoxPokemon()
+}
+
+export const clearAllData = async () => {
+  return deleteAllData()
+}

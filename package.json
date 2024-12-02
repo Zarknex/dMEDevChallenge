@@ -23,6 +23,7 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^3.0.0",
+    "@icons-pack/react-simple-icons": "^10.2.0",
     "@reduxjs/toolkit": "^2.4.0",
     "axios": "^1.7.8",
     "better-sqlite3": "^11.6.0",
@@ -42,7 +43,6 @@
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
-    "concurrently": "^9.1.0",
     "electron": "^33.2.1",
     "electron-builder": "^25.1.8",
     "electron-vite": "^2.3.0",

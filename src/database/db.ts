@@ -5,7 +5,6 @@ import path from 'path';
 const dbPath = path.join(app.getPath('userData'), 'pokemon.sqlite');
 export const db = new Database(dbPath);
 
-// Crear las tablas necesarias
 db.exec(`
   CREATE TABLE IF NOT EXISTS captured_pokemon (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -51,7 +50,6 @@ db.exec(`
   );
 `);
 
-// Función para guardar un Pokémon capturado
 export const saveCapturedPokemon = (pokemon: {
   name: string;
   image: string;
@@ -100,33 +98,28 @@ export const saveCapturedPokemon = (pokemon: {
   `);
 
   const transaction = db.transaction(() => {
-    // Insertar el Pokémon
     insertPokemonStmt.run({
       name: pokemon.name,
       image: pokemon.image,
       description: pokemon.description,
     });
 
-    // Obtener el ID del Pokémon recién insertado
     const pokemonId = getPokemonIdStmt.get().id;
 
-    // Insertar los tipos y relaciones
     pokemon.types.forEach((type) => {
-      insertTypeStmt.run(type); // Inserta el tipo si no existe
-      insertPokemonTypeStmt.run({ pokemon_id: pokemonId, type_name: type.name }); // Relación
+      insertTypeStmt.run(type); 
+      insertPokemonTypeStmt.run({ pokemon_id: pokemonId, type_name: type.name });
     });
 
-    // Insertar los ataques y relaciones
     pokemon.moves.forEach((attack) => {
-      insertMoveStmt.run({ name: attack }); // Inserta el ataque si no existe
-      insertPokemonMoveStmt.run({ pokemon_id: pokemonId, move_name: attack }); // Relación
+      insertMoveStmt.run({ name: attack }); 
+      insertPokemonMoveStmt.run({ pokemon_id: pokemonId, move_name: attack });
     });
   });
 
   transaction();
 };
 
-// Función para obtener todos los Pokémon capturados con sus tipos y ataques
 export const getCapturedPokemon = () => {
   const pokemonStmt = db.prepare(`
     SELECT * FROM captured_pokemon
@@ -160,7 +153,6 @@ export const getCapturedPokemon = () => {
   });
 };
 
-// Función para limpiar todos los Pokémon capturados
 export const clearCapturedPokemon = () => {
   const stmt = db.prepare('DELETE FROM captured_pokemon');
   stmt.run();

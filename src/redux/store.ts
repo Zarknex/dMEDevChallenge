@@ -6,7 +6,7 @@ import pcboxReducer from './slices/pcboxSlice';
 export const store = configureStore({
   reducer: {
     pokemon: pokemonReducer,
-    selectedPokemon: selectedPokemonReducer, // Registrar el slice correctamente
+    selectedPokemon: selectedPokemonReducer,
     pcbox: pcboxReducer,
   }
 })

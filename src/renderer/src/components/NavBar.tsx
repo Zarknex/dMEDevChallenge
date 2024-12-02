@@ -19,7 +19,7 @@ const NavBar: React.FC = () => {
           to="/wild-pokemon"
           className="flex-1 bg-button-primary hover:bg-button-primary-hover border-button-border border-r-2 p-3 font-semibold text-button-text text-2xl flex items-center justify-center"
         >
-          <span className="mr-2">Wild Pokemon</span>
+          <span className="mr-2">Wild Pokémon</span>
           <img src={grassIcon} className="h-7" alt="Grass Icon" />
         </Link>
 
@@ -27,7 +27,7 @@ const NavBar: React.FC = () => {
           to="/pokemon-party"
           className="flex-1 bg-button-primary hover:bg-button-primary-hover border-button-border border-r-2 p-3 font-semibold text-button-text text-center flex flex-col items-center text-2xl"
         >
-          Pokemon Party
+          Pokémon Party
           <PartyPokeballs />
         </Link>
 

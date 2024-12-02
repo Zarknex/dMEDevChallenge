@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface PokemonState {
-  capturedPokemons: any[]; // Lista de Pokémon capturados
+  capturedPokemons: any[];
 }
 
 const initialState: PokemonState = {

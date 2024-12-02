@@ -1,14 +1,13 @@
 import React from 'react'
-import { useSelector } from 'react-redux' // Hook para acceder al estado global
-import { RootState } from '../../../redux/store' // Importa el tipo RootState para el selector
-import pokeballBlack from '../assets/pokeball-black.svg' // Pokeball vacía
-import pokeballColored from '../assets/pokeball-colored.svg' // Pokeball capturada
+import { useSelector } from 'react-redux' 
+import { RootState } from '../../../redux/store' 
+import pokeballBlack from '../assets/pokeball-black.svg' 
+import pokeballColored from '../assets/pokeball-colored.svg'
 
 const PartyPokeballs: React.FC = () => {
-  // Acceder al estado global para obtener los Pokémon capturados
+
   const capturedPokemons = useSelector((state: RootState) => state.pokemon.capturedPokemons)
 
-  // Calcula cuántos Pokémon están en el equipo (máximo 6)
   const activeCount = Math.min(capturedPokemons.length, 6)
 
   return (
