@@ -78,19 +78,6 @@ This is a Pokémon-themed application built with Electron, React, Redux, and SQL
      ```bash
      npm run build:win
      ```
-   - For macOS:
-     ```bash
-     npm run build:mac
-     ```
-   - For Linux:
-     ```bash
-     npm run build:linux
-     ```
-
----
-
-## Releases
-[Link to Releases](#)
 
 ---
 
