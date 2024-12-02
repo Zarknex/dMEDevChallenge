@@ -45,35 +45,6 @@ This is a Pokémon-themed application built with Electron, React, Redux, and SQL
 
 ---
 
-## Directory Structure
-
-```plaintext
-src/
-├── backend/               # Backend code for PostgreSQL
-│   ├── index.ts           # Main backend logic (integrated with the app)
-│   ├── dbController.ts    # Logic for interacting with PostgreSQL
-│   └── models/
-│       └── postgres.sql   # SQL scripts for creating PostgreSQL tables
-├── components/            # Reusable React components (e.g., PokemonCard)
-├── database/              # SQLite logic and database setup
-│   └── db.ts              # SQLite queries and table creation
-├── pages/                 # React pages for routing
-│   ├── HomePage.tsx
-│   ├── PCBoxPage.tsx
-│   ├── PokemonPartyPage.tsx
-│   ├── WildPokemonPage.tsx
-├── redux/                 # Redux state management
-│   ├── slices/            # Redux slices for state
-│   │   ├── pokemonSlice.ts
-│   │   └── pcboxSlice.ts
-│   └── store.ts           # Redux store setup
-├── assets/                # Static assets (images, etc.)
-├── App.tsx                # Main app component
-└── main.tsx               # Electron entry point
-```
-
----
-
 ## Getting Started
 
 ### Prerequisites
